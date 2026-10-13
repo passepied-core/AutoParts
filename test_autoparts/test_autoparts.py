@@ -4,8 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.service import Service
 
 
 BASE = "http://127.0.0.1:8000"
@@ -98,14 +97,12 @@ def tiny_png_path():
 class T(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        opts = webdriver.ChromeOptions()
+        opts = webdriver.FirefoxOptions()
     
-        opts.add_argument("--disable-gpu")
-        opts.add_argument("--window-size=1366,900")
-        opts.add_argument("--no-sandbox")
-        opts.add_argument("--disable-dev-shm-usage")
-        opts.add_experimental_option("excludeSwitches", ["enable-logging"])
-        cls.d = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=opts)
+        opts.add_argument("--headless")
+        opts.add_argument("--width=1366")
+        opts.add_argument("--height=900")
+        cls.d = webdriver.Firefox(service=Service(), options=opts)
         cls.w = WebDriverWait(cls.d, 15)
         s = rs()
         cls.user = {"u": f"user{s}", "e": f"user{s}@test.local", "p": f"Passw0rd!{s}"}
